@@ -87,13 +87,20 @@ const serializeTodo = todo => ({
       const { title, completed } = req.body
       const todoToUpdate = { title, completed }
   
-      const numberOfValues = Object.values(todoToUpdate).filter(Boolean).length
-      if (numberOfValues === 0)
-        return res.status(400).json({
-          error: {
-            message: `Request body must content either 'title' or 'completed'`
-          }
-        })
+       if (!todoToUpdate.title || !todoToUpdate.completed) {
+       return res.status(400).json({
+        error: {
+          message: `Request must contain either "title" or "completed"`,
+        },
+      });
+    }
+      //const numberOfValues = Object.values(todoToUpdate).filter(Boolean).length
+     // if (numberOfValues === 0)
+      //  return res.status(400).json({
+      //    error: {
+       //     message: `Request body must content either 'title' or 'completed'`
+      //    }
+      //  })
   
       TodoService.updateTodo(
         req.app.get('db'),
